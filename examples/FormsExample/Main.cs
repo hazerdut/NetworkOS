@@ -2,8 +2,6 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CefSharp.WinForms;
-using CefSharp;
 using Gma.System.MouseKeyHook;
 
 namespace Demo
@@ -11,25 +9,13 @@ namespace Demo
     public partial class Main : Form
     {
         private IKeyboardMouseEvents m_Events;
-        public ChromiumWebBrowser wb;
 
         public Main()
         {
             InitializeComponent();
             SubscribeGlobal();
             FormClosing += Main_Closing;
-            InitBrowser();
-            InitializeComponentSuggest();
         }
-
-        public void InitBrowser()
-        {
-            Cef.Initialize(new CefSettings());
-            wb = new ChromiumWebBrowser("maienglish.edu.vn/damang/");
-            pnlweb.Controls.Add(wb);
-            wb.Dock = DockStyle.Fill;
-        }
-
 
         private void Main_Closing(object sender, CancelEventArgs e)
         {
@@ -46,17 +32,11 @@ namespace Demo
         private void Subscribe(IKeyboardMouseEvents events)
         {
             m_Events = events;
-            m_Events.KeyDown += OnKeyDown;
-            m_Events.KeyUp += OnKeyUp;
-            m_Events.KeyPress += HookManager_KeyPress;
 
-            m_Events.MouseUp += OnMouseUp;
-            m_Events.MouseClick += OnMouseClick;
             m_Events.MouseDoubleClick += OnMouseDoubleClick;
 
             m_Events.MouseMove += HookManager_MouseMove;
 
-            m_Events.MouseDragStarted += OnMouseDragStarted;
             m_Events.MouseDragFinished += OnMouseDragFinished;
 
         }
@@ -64,17 +44,9 @@ namespace Demo
         private void Unsubscribe()
         {
             if (m_Events == null) return;
-            m_Events.KeyDown -= OnKeyDown;
-            m_Events.KeyUp -= OnKeyUp;
-            m_Events.KeyPress -= HookManager_KeyPress;
-
-            m_Events.MouseUp -= OnMouseUp;
-            m_Events.MouseClick -= OnMouseClick;
             m_Events.MouseDoubleClick -= OnMouseDoubleClick;
 
             m_Events.MouseMove -= HookManager_MouseMove;
-
-            m_Events.MouseDragStarted -= OnMouseDragStarted;
             m_Events.MouseDragFinished -= OnMouseDragFinished;
 
            
@@ -82,7 +54,7 @@ namespace Demo
             m_Events = null;
         }
 
-        public async void Translate()
+        public async void Translate(int x, int y)
         {
             string rs = null;
             textBoxLog.Clear();
@@ -100,10 +72,16 @@ namespace Demo
                 client = new TranslatorService.LanguageServiceClient();
                 rs = client.Translate("6CE9C85A41571C050C379F60DA173D286384E0F2", input, "", "vi");
                 Log(input);
+                cm_trans.Items.Clear();
+                cm_trans.Items.Add(rs);
+                cm_trans.Show(this,x,y);
             }
             catch (Exception ex)
             {
                 Log(input);
+                cm_trans.Items.Clear();
+                cm_trans.Items.Add(rs);
+                cm_trans.Show(this, x, y);
             }
         }
 
@@ -119,57 +97,28 @@ namespace Demo
             e.Handled = true;
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            /*Log(string.Format("KeyDown  \t\t {0}\n", e.KeyCode));*/
-        }
-
-        private void OnKeyUp(object sender, KeyEventArgs e)
-        {
-            /*Log(string.Format("KeyUp  \t\t {0}\n", e.KeyCode));*/
-        }
-
-        private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            /*Log(string.Format("KeyPress \t\t {0}\n", e.KeyChar));*/
-        }
 
         private void HookManager_MouseMove(object sender, MouseEventArgs e)
         {
             labelMousePosition.Text = string.Format("x={0:0000}; y={1:0000}", e.X, e.Y);
         }
 
-        private void OnMouseDown(object sender, MouseEventArgs e)
-        {
-            /*Log(string.Format("MouseDown \t\t {0}\n", e.Button));*/
-        }
-
-        private void OnMouseUp(object sender, MouseEventArgs e)
-        {
-            /*Log(string.Format("MouseUp \t\t {0}\n", e.Button));*/
-        }
-
-        private void OnMouseClick(object sender, MouseEventArgs e)
-        {
-            /*Log(string.Format("MouseClick \t\t {0}\n", e.Button));*/
-        }
-
         private void OnMouseDoubleClick(object sender, MouseEventArgs e)
         {
             Copy();
-            Translate();
+            int x_position = e.X + 15 - this.Location.X;
+            int y_position = e.Y - 20 - this.Location.Y;
+            Translate(x_position,y_position);
             /*Log(string.Format("MouseDoubleClick \t\t {0}\n", e.Button));*/
         }
 
-        private void OnMouseDragStarted(object sender, MouseEventArgs e)
-        {
-            /*Log("MouseDragStarted\n");*/
-        }
 
         private void OnMouseDragFinished(object sender, MouseEventArgs e)
         {
             Copy();
-            Translate();
+            int x_position = e.X - this.Location.X;
+            int y_position = e.Y - 20 - this.Location.Y;
+            Translate(x_position,y_position);
             /*Log("MouseDragFinished\n");*/
         }
 
@@ -184,12 +133,6 @@ namespace Demo
         private void clearLog_Click(object sender, EventArgs e)
         {
             textBoxLog.Clear();
-        }
-
-        private void btn_go_Click(object sender, EventArgs e)
-        {
-            String url = txt_url.Text;
-            wb.Load(url);
         }
 
         private void textBoxLog_TextChanged(object sender, EventArgs e)
@@ -559,6 +502,16 @@ namespace Demo
         private void tb_Open_Click_1(object sender, EventArgs e)
         {
             Open();
+        }
+
+        private void rcMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void mainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }

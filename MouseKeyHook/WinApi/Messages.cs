@@ -1,8 +1,4 @@
-﻿// This code is distributed under MIT license. 
-// Copyright (c) 2015 George Mamaladze
-// See license.txt or https://mit-license.org/
-
-namespace Gma.System.MouseKeyHook.WinApi
+﻿namespace Gma.System.MouseKeyHook.WinApi
 {
     internal static class Messages
     {
@@ -34,14 +30,5 @@ namespace Gma.System.MouseKeyHook.WinApi
 
         public const int WM_XBUTTONDBLCLK = 0x20D;
 
-        public const int WM_MOUSEHWHEEL = 0x20E;
-
-        public const int WM_KEYDOWN = 0x100;
-
-        public const int WM_KEYUP = 0x101;
-
-        public const int WM_SYSKEYDOWN = 0x104;
-
-        public const int WM_SYSKEYUP = 0x105;
     }
 }

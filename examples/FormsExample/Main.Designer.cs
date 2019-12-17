@@ -51,8 +51,6 @@
             this.edit_SelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mM_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.tools_Customise = new System.Windows.Forms.ToolStripMenuItem();
-            this.txt_url = new System.Windows.Forms.TextBox();
-            this.btn_go = new System.Windows.Forms.Button();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.status_ZoomFactor = new System.Windows.Forms.ToolStripStatusLabel();
@@ -64,8 +62,9 @@
             this.rc_Cut = new System.Windows.Forms.ToolStripMenuItem();
             this.rc_Copy = new System.Windows.Forms.ToolStripMenuItem();
             this.rc_Paste = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlweb = new System.Windows.Forms.Panel();
             this.Document = new System.Windows.Forms.RichTextBox();
+            this.cm_trans = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.autocompleteMenu3 = new AutocompleteMenuNS.AutocompleteMenu();
             this.groupBox2.SuspendLayout();
             this.Tools.SuspendLayout();
             this.mainMenu.SuspendLayout();
@@ -93,8 +92,6 @@
             this.groupBox2.Controls.Add(this.Tools);
             this.groupBox2.Controls.Add(this.textBoxLog);
             this.groupBox2.Controls.Add(this.mainMenu);
-            this.groupBox2.Controls.Add(this.txt_url);
-            this.groupBox2.Controls.Add(this.btn_go);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, -6);
@@ -105,7 +102,7 @@
             // 
             // clearLogButton
             // 
-            this.clearLogButton.Location = new System.Drawing.Point(1050, 15);
+            this.clearLogButton.Location = new System.Drawing.Point(564, 12);
             this.clearLogButton.Name = "clearLogButton";
             this.clearLogButton.Size = new System.Drawing.Size(75, 23);
             this.clearLogButton.TabIndex = 16;
@@ -199,14 +196,15 @@
             // 
             // textBoxLog
             // 
+            this.autocompleteMenu3.SetAutocompleteMenu(this.textBoxLog, null);
             this.textBoxLog.BackColor = System.Drawing.Color.White;
             this.textBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxLog.Location = new System.Drawing.Point(324, 15);
+            this.textBoxLog.Location = new System.Drawing.Point(319, 12);
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(720, 20);
+            this.textBoxLog.Size = new System.Drawing.Size(239, 20);
             this.textBoxLog.TabIndex = 17;
             this.textBoxLog.WordWrap = false;
             this.textBoxLog.TextChanged += new System.EventHandler(this.textBoxLog_TextChanged);
@@ -223,6 +221,7 @@
             this.mainMenu.Size = new System.Drawing.Size(131, 24);
             this.mainMenu.TabIndex = 18;
             this.mainMenu.Text = "menuStrip1";
+            this.mainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mainMenu_ItemClicked);
             // 
             // mM_File
             // 
@@ -368,24 +367,6 @@
             this.tools_Customise.Size = new System.Drawing.Size(130, 22);
             this.tools_Customise.Text = "&Customize";
             // 
-            // txt_url
-            // 
-            this.txt_url.Location = new System.Drawing.Point(541, 48);
-            this.txt_url.Name = "txt_url";
-            this.txt_url.Size = new System.Drawing.Size(584, 20);
-            this.txt_url.TabIndex = 11;
-            // 
-            // btn_go
-            // 
-            this.btn_go.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_go.Location = new System.Drawing.Point(486, 45);
-            this.btn_go.Name = "btn_go";
-            this.btn_go.Size = new System.Drawing.Size(46, 23);
-            this.btn_go.TabIndex = 10;
-            this.btn_go.Text = "Go";
-            this.btn_go.UseVisualStyleBackColor = true;
-            this.btn_go.Click += new System.EventHandler(this.btn_go_Click);
-            // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
@@ -454,33 +435,48 @@
             this.rc_Paste.Text = "Paste";
             this.rc_Paste.Click += new System.EventHandler(this.rc_Paste_Click);
             // 
-            // pnlweb
-            // 
-            this.pnlweb.Location = new System.Drawing.Point(541, 68);
-            this.pnlweb.Name = "pnlweb";
-            this.pnlweb.Size = new System.Drawing.Size(584, 505);
-            this.pnlweb.TabIndex = 10;
-            // 
             // Document
             // 
+            this.Document.AcceptsTab = true;
+            this.Document.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.autocompleteMenu3.SetAutocompleteMenu(this.Document, this.autocompleteMenu3);
             this.Document.ContextMenuStrip = this.rcMenu;
             this.Document.Location = new System.Drawing.Point(2, 68);
             this.Document.Name = "Document";
-            this.Document.Size = new System.Drawing.Size(530, 505);
+            this.Document.Size = new System.Drawing.Size(637, 505);
             this.Document.TabIndex = 3;
             this.Document.Text = "";
             this.Document.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.Document_LinkClicked);
+            // 
+            // cm_trans
+            // 
+            this.cm_trans.Name = "cm_trans";
+            this.cm_trans.Size = new System.Drawing.Size(61, 4);
+            // 
+            // autocompleteMenu3
+            // 
+            this.autocompleteMenu3.Colors = null;
+            this.autocompleteMenu3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.autocompleteMenu3.ImageList = null;
+            this.autocompleteMenu3.Items = new string[] {
+        "abc",
+        "abcd",
+        "abcde",
+        "abcdef"};
+            this.autocompleteMenu3.LeftPadding = 0;
+            this.autocompleteMenu3.TargetControlWrapper = null;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1150, 580);
+            this.ClientSize = new System.Drawing.Size(647, 580);
             this.Controls.Add(this.Document);
-            this.Controls.Add(this.pnlweb);
             this.Controls.Add(this.groupBox2);
             this.Name = "Main";
-            this.Text = "Mouse and Keyboard Hooks Demo";
+            this.Text = "Hook Program - Đồ Án Cơ Sở Ngành Mạng";
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.Tools.ResumeLayout(false);
@@ -492,15 +488,10 @@
 
         }
 
-        private AutocompleteMenuNS.AutocompleteMenu autocompleteMenu1;
-
         #endregion
         private System.Windows.Forms.Label labelMousePosition;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button clearLogButton;
-        private System.Windows.Forms.TextBox txt_url;
-        private System.Windows.Forms.Button btn_go;
-        private System.Windows.Forms.Panel pnlweb;
         private System.Windows.Forms.TextBox textBoxLog;
         private System.Windows.Forms.RichTextBox Document;
         private System.Windows.Forms.MenuStrip mainMenu;
@@ -545,6 +536,8 @@
         private System.Windows.Forms.OpenFileDialog openWork;
         private System.Windows.Forms.SaveFileDialog saveWork;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ContextMenuStrip cm_trans;
+        public AutocompleteMenuNS.AutocompleteMenu autocompleteMenu3;
     }
 }
 

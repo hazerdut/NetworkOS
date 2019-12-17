@@ -1,18 +1,10 @@
-﻿// This code is distributed under MIT license.
-// Copyright (c) 2015 George Mamaladze
-// See license.txt or https://mit-license.org/
-
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.Implementation
 {
-    // Because it is a P/Invoke method, 'GetSystemMetrics(int)'
-    // should be defined in a class named NativeMethods, SafeNativeMethods,
-    // or UnsafeNativeMethods.
-    // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724385(v=vs.85).aspx
     internal static class NativeMethods
     {
         private const int SM_CXDRAG = 68;
@@ -66,8 +58,6 @@ namespace Gma.System.MouseKeyHook.Implementation
         public event EventHandler<MouseEventExtArgs> MouseDownExt;
         public event MouseEventHandler MouseUp;
         public event EventHandler<MouseEventExtArgs> MouseUpExt;
-        public event MouseEventHandler MouseWheel;
-        public event EventHandler<MouseEventExtArgs> MouseWheelExt;
         public event MouseEventHandler MouseDoubleClick;
         public event MouseEventHandler MouseDragStarted;
         public event EventHandler<MouseEventExtArgs> MouseDragStartedExt;
@@ -94,12 +84,6 @@ namespace Gma.System.MouseKeyHook.Implementation
         }
 
         protected abstract MouseEventExtArgs GetEventArgs(CallbackData data);
-
-        protected virtual void ProcessWheel(ref MouseEventExtArgs e)
-        {
-            OnWheel(e);
-            OnWheelExt(e);
-        }
 
         protected virtual void ProcessDown(ref MouseEventExtArgs e)
         {
@@ -230,18 +214,6 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected virtual void OnUpExt(MouseEventExtArgs e)
         {
             var handler = MouseUpExt;
-            if (handler != null) handler(this, e);
-        }
-
-        protected virtual void OnWheel(MouseEventArgs e)
-        {
-            var handler = MouseWheel;
-            if (handler != null) handler(this, e);
-        }
-
-        protected virtual void OnWheelExt(MouseEventExtArgs e)
-        {
-            var handler = MouseWheelExt;
             if (handler != null) handler(this, e);
         }
 

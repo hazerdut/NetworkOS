@@ -19,10 +19,6 @@ namespace Gma.System.MouseKeyHook
 
         event EventHandler<MouseEventExtArgs> MouseUpExt;
 
-        event MouseEventHandler MouseWheel;
-
-        event EventHandler<MouseEventExtArgs> MouseWheelExt;
-
         event MouseEventHandler MouseDoubleClick;
 
         event MouseEventHandler MouseDragStarted;

@@ -2,7 +2,7 @@
 
 namespace Gma.System.MouseKeyHook
 {
-    public interface IKeyboardMouseEvents : IKeyboardEvents, IMouseEvents, IDisposable
+    public interface IKeyboardMouseEvents : IMouseEvents, IDisposable
     {
     }
 }
