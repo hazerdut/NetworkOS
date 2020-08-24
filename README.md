@@ -2,10 +2,10 @@
 Author: Hoang Ho <br>
 Dự án có sử dụng một số mã nguồn tại: https://github.com/gmamaladze/globalmousekeyhook
 
-### Function
+## Function
 Dịch đoạn văn khi được chọn (dịch khi select bằng mouse, không dịch khi select bằng keyboard)
 
-### Run
+## Run
 Open project with VS Studio. Complie and Run
 
 ## Note
